@@ -13,7 +13,6 @@ data class TvShow(
     val backdropPath: String,
     @SerializedName("first_air_date")
     val firstAirDate: String,
-
     @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
     val id: Int,

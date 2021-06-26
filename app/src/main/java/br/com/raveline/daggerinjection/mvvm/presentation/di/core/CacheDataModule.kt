@@ -1,4 +1,4 @@
-package br.com.raveline.daggerinjection.mvvm.presentation.di
+package br.com.raveline.daggerinjection.mvvm.presentation.di.core
 
 import br.com.raveline.daggerinjection.mvvm.domain.repository.artist_repo.datasource.ArtistsCacheDataSource
 import br.com.raveline.daggerinjection.mvvm.domain.repository.artist_repo.datasource_impl.ArtistCacheDataSourceImpl

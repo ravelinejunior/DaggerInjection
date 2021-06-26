@@ -1,4 +1,4 @@
-package br.com.raveline.daggerinjection.mvvm.presentation.di
+package br.com.raveline.daggerinjection.mvvm.presentation.di.core
 
 import br.com.raveline.daggerinjection.mvvm.data.api.TmdService
 import dagger.Module

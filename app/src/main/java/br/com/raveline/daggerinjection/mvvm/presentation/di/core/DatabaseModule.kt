@@ -1,4 +1,4 @@
-package br.com.raveline.daggerinjection.mvvm.presentation.di
+package br.com.raveline.daggerinjection.mvvm.presentation.di.core
 
 import android.content.Context
 import androidx.room.Room

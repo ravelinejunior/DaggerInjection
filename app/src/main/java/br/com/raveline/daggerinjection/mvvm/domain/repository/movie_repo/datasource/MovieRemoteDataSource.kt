@@ -4,5 +4,5 @@ import br.com.raveline.daggerinjection.mvvm.data.model.movie.MovieList
 import retrofit2.Response
 
 interface MovieRemoteDataSource {
-    suspend fun getMoviesFromRemote(): Response<MovieList>?
+    suspend fun getMoviesFromRemote(): Response<MovieList>
 }
