@@ -1,7 +1,10 @@
 package br.com.raveline.daggerinjection.mvvm.presentation.movie
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -51,9 +54,41 @@ class MovieActivity : AppCompatActivity() {
             if (movies != null) {
                 adapter.setList(movies)
                 adapter.notifyDataSetChanged()
-                binding.progressBarMovie.visibility = View.GONE
+                binding.progressBarMovie.visibility = GONE
             } else {
                 Toast.makeText(this, "No data Available", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_update, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_update_action -> {
+                updateMovies()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+
+        }
+
+    }
+
+    private fun updateMovies() {
+        binding.progressBarMovie.visibility = View.VISIBLE
+        val response = movieViewModel.updateNovies()
+        response.observe(this, { movies ->
+            if (movies != null) {
+                adapter.setList(movies)
+                adapter.notifyDataSetChanged()
+                binding.progressBarMovie.visibility = GONE
+            } else {
+                Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
             }
         })
     }
