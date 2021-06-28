@@ -3,6 +3,7 @@ package br.com.raveline.daggerinjection.mvvm.data.api
 import br.com.raveline.daggerinjection.mvvm.data.model.artist.PeopleList
 import br.com.raveline.daggerinjection.mvvm.data.model.movie.MovieList
 import br.com.raveline.daggerinjection.mvvm.data.model.tv.TvShowList
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -29,5 +30,7 @@ interface TmdService {
         @Query("language") language: String,
         @Query("page") page: Int,
     ): Response<PeopleList>
+
+
 
 }

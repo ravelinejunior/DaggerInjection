@@ -22,7 +22,7 @@ class ArtistRepositoryImpl(
     }
 
     private suspend fun getArtistsFromApi(): List<Artist> {
-        lateinit var artists: List<Artist>
+        /*lateinit var artists: List<Artist>
 
         try {
             val response = artistRemoteDataSource.getArtistsFromApi()
@@ -33,8 +33,8 @@ class ArtistRepositoryImpl(
         } catch (e: Exception) {
             Log.e("ArtistRepo", e.message.toString())
             e.printStackTrace()
-        }
-
+        }*/
+        val artists = artistRemoteDataSource.getArtistsFromApi()?.body()?.artists as ArrayList
         return artists
     }
 

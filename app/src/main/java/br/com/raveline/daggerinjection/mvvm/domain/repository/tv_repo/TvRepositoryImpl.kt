@@ -22,19 +22,21 @@ class TvRepositoryImpl(
     }
 
     private suspend fun getTvShowsFromApi(): List<TvShow> {
-        lateinit var listTvShows: List<TvShow>
+        /*    lateinit var listTvShows: List<TvShow>
 
-        try {
-            val response = tvShowRemoteDataSource.getTvShowFromApi()
-            val body = response?.body()
-            if (body != null) {
-                listTvShows = body.tvShows
+            try {
+                val response = tvShowRemoteDataSource.getTvShowFromApi()
+                val body = response?.body()
+                if (body != null) {
+                    listTvShows = body.tvShows
+                }
+            } catch (e: Exception) {
+                Log.e("TvShowRepo", e.message.toString())
+                e.printStackTrace()
             }
-        } catch (e: Exception) {
-            Log.e("TvShowRepo", e.message.toString())
-            e.printStackTrace()
-        }
+    */
 
+        val listTvShows = tvShowRemoteDataSource.getTvShowFromApi()?.body()?.tvShows as ArrayList
         return listTvShows
     }
 

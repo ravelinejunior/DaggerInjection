@@ -10,28 +10,28 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "tvShow_tb")
 data class TvShow(
     @SerializedName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
     @SerializedName("first_air_date")
-    val firstAirDate: String,
+    val firstAirDate: String?,
     @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
-    val id: Int,
+    val id: Int?,
     @SerializedName("name")
-    val name: String,
+    val name: String?,
     @SerializedName("original_language")
-    val originalLanguage: String,
+    val originalLanguage: String?,
     @SerializedName("original_name")
-    val originalName: String,
+    val originalName: String?,
     @SerializedName("overview")
-    val overview: String,
+    val overview: String?,
     @SerializedName("popularity")
-    val popularity: Double,
+    val popularity: Double?,
     @SerializedName("poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @SerializedName("vote_average")
-    val voteAverage: Double,
+    val voteAverage: Double?,
     @SerializedName("vote_count")
-    val voteCount: Int
+    val voteCount: Int?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),
@@ -51,15 +51,15 @@ data class TvShow(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(backdropPath)
         parcel.writeString(firstAirDate)
-        parcel.writeInt(id)
+        id?.let { parcel.writeInt(it) }
         parcel.writeString(name)
         parcel.writeString(originalLanguage)
         parcel.writeString(originalName)
         parcel.writeString(overview)
-        parcel.writeDouble(popularity)
+        popularity?.let { parcel.writeDouble(it) }
         parcel.writeString(posterPath)
-        parcel.writeDouble(voteAverage)
-        parcel.writeInt(voteCount)
+        voteAverage?.let { parcel.writeDouble(it) }
+        voteCount?.let { parcel.writeInt(it) }
     }
 
     override fun describeContents(): Int = 0

@@ -10,20 +10,20 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "artist_tb")
 data class Artist(
     @SerializedName("adult")
-    val adult: Boolean,
+    val adult: Boolean?,
     @SerializedName("gender")
-    val gender: Int,
+    val gender: Int?,
     @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
-    val id: Int,
+    val id: Int?,
     @SerializedName("known_for_department")
-    val knownForDepartment: String,
+    val knownForDepartment: String?,
     @SerializedName("name")
-    val name: String,
+    val name: String?,
     @SerializedName("popularity")
-    val popularity: Double,
+    val popularity: Double?,
     @SerializedName("profile_path")
-    val profilePath: String
+    val profilePath: String?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readByte() != 0.toByte(),
@@ -36,12 +36,14 @@ data class Artist(
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeByte(if (adult) 1 else 0)
-        parcel.writeInt(gender)
-        parcel.writeInt(id)
+        parcel.writeByte(if (adult == true) 1 else 0)
+        if (gender != null) {
+            parcel.writeInt(gender)
+        }
+        id?.let { parcel.writeInt(it) }
         parcel.writeString(knownForDepartment)
         parcel.writeString(name)
-        parcel.writeDouble(popularity)
+        popularity?.let { parcel.writeDouble(it) }
         parcel.writeString(profilePath)
     }
 

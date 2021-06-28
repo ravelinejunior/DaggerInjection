@@ -22,43 +22,48 @@ class MovieRepositoryImpl(
         return newListOfMovies
     }
 
-     suspend fun getMoviesFromApi(): List<Movie> {
-        lateinit var movieList: List<Movie>
+    suspend fun getMoviesFromApi(): List<Movie> {
+        /* lateinit var movieList: List<Movie>
 
-        try {
-            val response = movieRemoteDataSource.getMoviesFromRemote()
-            val body = response.body()
-            if (body != null) {
-                movieList = body.movies
-            }
-        } catch (e: Exception) {
-            Log.e("MoviesRepo", e.message.toString())
-            e.printStackTrace()
-        }
+         try {
+             val response = movieRemoteDataSource.getMoviesFromRemote()
+             val body = response.body()
+             if (body != null) {
+                 movieList = body.movies
+             }
+         } catch (e: Exception) {
+             Log.e("MoviesRepo", e.message.toString())
+             e.printStackTrace()
+         }*/
+        val movies = movieRemoteDataSource.getMoviesFromRemote().body()?.movies as ArrayList<Movie>
+        Log.e("MoviesRepo", movies.toString())
 
-        return movieList
+        return movies
     }
 
-     suspend fun getMoviesFromDatabase(): List<Movie> {
+    suspend fun getMoviesFromDatabase(): List<Movie> {
         lateinit var movieList: List<Movie>
 
         try {
             movieList = movieLocalDataSource.getMoviesFromDatabase()
+            if (movieList.isNotEmpty()) return movieList
+            else {
+                movieList = getMoviesFromApi()
+                movieLocalDataSource.saveMoviesToDb(movieList)
+                return movieList
+            }
         } catch (e: Exception) {
             Log.e("MoviesRepo", e.message.toString())
             e.printStackTrace()
+            return ArrayList()
         }
 
-        if (movieList.isNotEmpty()) return movieList
-        else {
-            movieList = getMoviesFromApi()
-            movieLocalDataSource.saveMoviesToDb(movieList)
-        }
 
-        return movieList
+
+
     }
 
-     suspend fun getMoviesFromCache(): List<Movie> {
+    suspend fun getMoviesFromCache(): List<Movie> {
         lateinit var movies: List<Movie>
 
         try {

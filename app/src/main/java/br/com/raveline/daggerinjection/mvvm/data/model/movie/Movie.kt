@@ -19,25 +19,25 @@ data class Movie(
     val id: Int,
 
     @SerializedName("original_language")
-    val originalLanguage: String,
+    val originalLanguage: String?,
     @SerializedName("original_title")
-    val originalTitle: String,
+    val originalTitle: String?,
     @SerializedName("overview")
-    val overview: String,
+    val overview: String?,
     @SerializedName("popularity")
-    val popularity: Double,
+    val popularity: Double?,
     @SerializedName("poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @SerializedName("release_date")
-    val releaseDate: String,
+    val releaseDate: String?,
     @SerializedName("title")
-    val title: String,
+    val title: String?,
     @SerializedName("video")
-    val video: Boolean,
+    val video: Boolean?,
     @SerializedName("vote_average")
-    val voteAverage: Double,
+    val voteAverage: Double?,
     @SerializedName("vote_count")
-    val voteCount: Int
+    val voteCount: Int?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readByte() != 0.toByte(),
@@ -63,13 +63,13 @@ data class Movie(
         parcel.writeString(originalLanguage)
         parcel.writeString(originalTitle)
         parcel.writeString(overview)
-        parcel.writeDouble(popularity)
+        parcel.writeDouble(popularity!!)
         parcel.writeString(posterPath)
         parcel.writeString(releaseDate)
         parcel.writeString(title)
-        parcel.writeByte(if (video) 1 else 0)
-        parcel.writeDouble(voteAverage)
-        parcel.writeInt(voteCount)
+        parcel.writeByte(if (video!!) 1 else 0)
+        parcel.writeDouble(voteAverage!!)
+        parcel.writeInt(voteCount!!)
     }
 
     override fun describeContents(): Int = 0
