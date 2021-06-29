@@ -1,5 +1,6 @@
 package br.com.raveline.daggerinjection.mvvm.presentation.artist
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import br.com.raveline.daggerinjection.HomeActivity
 import br.com.raveline.daggerinjection.R
 import br.com.raveline.daggerinjection.databinding.ActivityArtistBinding
 import br.com.raveline.daggerinjection.mvvm.presentation.artist.adapter.ArtistAdapter
@@ -29,6 +31,17 @@ class ArtistActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_artist)
+
+        binding.toolbarArtist.navigationIcon = getDrawable(R.drawable.ic_baseline_arrow_back_ios_24)
+        binding.toolbarArtist.setNavigationOnClickListener {
+            navigateUpTo(
+                Intent(
+                    this@ArtistActivity,
+                    HomeActivity::class.java
+                )
+            )
+        }
+        setSupportActionBar(binding.toolbarArtist)
 
         (application as Injector).createArtistSubComponent().inject(this)
         artistViewModel = ViewModelProvider(this, factory).get(ArtistViewModel::class.java)

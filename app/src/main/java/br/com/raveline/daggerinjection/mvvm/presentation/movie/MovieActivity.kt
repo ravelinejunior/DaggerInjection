@@ -1,5 +1,6 @@
 package br.com.raveline.daggerinjection.mvvm.presentation.movie
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import br.com.raveline.daggerinjection.HomeActivity
 import br.com.raveline.daggerinjection.R
 import br.com.raveline.daggerinjection.databinding.ActivityMovieBinding
 import br.com.raveline.daggerinjection.mvvm.presentation.di.Injector
@@ -28,6 +30,17 @@ class MovieActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movie)
+
+        binding.toolbarMovie.navigationIcon = getDrawable(R.drawable.ic_baseline_arrow_back_ios_24)
+        binding.toolbarMovie.setNavigationOnClickListener {
+            navigateUpTo(
+                Intent(
+                    this@MovieActivity,
+                    HomeActivity::class.java
+                )
+            )
+        }
+        setSupportActionBar(binding.toolbarMovie)
 
         (application as Injector).createMovieSubComponent().inject(this)
         movieViewModel = ViewModelProvider(this, factory).get(MovieViewModel::class.java)

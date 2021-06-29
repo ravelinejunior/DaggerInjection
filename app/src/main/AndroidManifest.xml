@@ -15,9 +15,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DaggerInjection"
         android:usesCleartextTraffic="true">
-        <activity android:name=".mvvm.presentation.artist.ArtistActivity" />
-        <activity android:name=".mvvm.presentation.movie.MovieActivity" />
-        <activity android:name=".mvvm.presentation.tv.TvShowActivity" />
+        <activity
+            android:name=".mvvm.presentation.artist.ArtistActivity"
+            android:label="Artists"
+            android:parentActivityName=".mvvm.ui.MvvmMainAcitivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar.Bridge" />
+        <activity
+            android:name=".mvvm.presentation.movie.MovieActivity"
+            android:label="Movies"
+            android:parentActivityName=".mvvm.ui.MvvmMainAcitivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar.Bridge" />
+        <activity
+            android:name=".mvvm.presentation.tv.TvShowActivity"
+            android:label="TvShows"
+            android:parentActivityName=".mvvm.ui.MvvmMainAcitivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar.Bridge" />
         <activity
             android:name=".HomeActivity"
             android:label="MVVM App Model"

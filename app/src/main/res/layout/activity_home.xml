@@ -13,6 +13,8 @@
             android:id="@+id/toolbar_mvvm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:titleTextColor="@color/white"
+            android:textAlignment="center"
             android:background="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
