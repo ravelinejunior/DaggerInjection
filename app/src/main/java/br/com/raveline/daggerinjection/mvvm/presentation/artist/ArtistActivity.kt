@@ -30,7 +30,8 @@ class ArtistActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_artist)
+        binding = ActivityArtistBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         binding.toolbarArtist.navigationIcon = getDrawable(R.drawable.ic_baseline_arrow_back_ios_24)
         binding.toolbarArtist.setNavigationOnClickListener {

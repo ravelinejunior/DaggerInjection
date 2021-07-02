@@ -30,7 +30,10 @@ class TvShowActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_tv_show)
+
+        binding = ActivityTvShowBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         binding.toolbarTvShow.navigationIcon = getDrawable(R.drawable.ic_baseline_arrow_back_ios_24)
         binding.toolbarTvShow.setNavigationOnClickListener {
             navigateUpTo(
