@@ -5,6 +5,7 @@ import br.com.raveline.daggerinjection.mvvm.data.model.movie.Movie
 
 @Dao
 interface MovieDao {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovieDao(movies: List<Movie>)
 
