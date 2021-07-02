@@ -1,47 +1,44 @@
-package br.com.raveline.daggerinjection.data.db
+package br.com.raveline.daggerinjection.mvvm.presentation.movie.movie_viewmodel
 
+import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import br.com.raveline.daggerinjection.mvvm.data.db.TmdDatabase
-import br.com.raveline.daggerinjection.mvvm.data.db.dao.MovieDao
+import br.com.raveline.daggerinjection.domain.repository.movie.FakeMovieRepository
+import br.com.raveline.daggerinjection.getOrAwaitValue
 import br.com.raveline.daggerinjection.mvvm.data.model.movie.Movie
-import com.google.common.truth.Truth
-import kotlinx.coroutines.runBlocking
-import org.junit.After
+import br.com.raveline.daggerinjection.mvvm.domain.usecase.movie_usecase.GetMoviesUseCase
+import br.com.raveline.daggerinjection.mvvm.domain.usecase.movie_usecase.UpdateMoviesUseCase
+import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 
-
+@Config(sdk = [Build.VERSION_CODES.O_MR1])
 @RunWith(AndroidJUnit4::class)
-class MovieDaoTest {
+class MovieViewModelTest {
 
+    //faz os testes serem gerados na mesma thread
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var dao: MovieDao
-    private lateinit var database: TmdDatabase
+    private lateinit var viewModel: MovieViewModel
+
 
     @Before
     fun setUp() {
-        database = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            TmdDatabase::class.java
-        ).build()
-        dao = database.movieDao()
-    }
-
-    @After //chamado apos teste acabar para fechar banco de dados
-    fun tearDown() {
-        database.close()
+        val fakeMovieRepository = FakeMovieRepository()
+        val getMoviesUseCase = GetMoviesUseCase(fakeMovieRepository)
+        val updateMoviesUseCase = UpdateMoviesUseCase(fakeMovieRepository)
+        viewModel = MovieViewModel(getMoviesUseCase, updateMoviesUseCase)
     }
 
     @Test
-    fun saveMovieTest() = runBlocking {
-        val movies = listOf<Movie>(
+    fun getMovies_returnsCurrentList() {
+        val movieList = mutableListOf<Movie>()
+
+        val movies = listOf(
             Movie(
                 true, "path", 1, "Loki O ninja", "O ninja Loki", "ahsdljashndlksajdla",
                 100.0, "posterPath,", "10/10/2069", "My title", true, 10.5, 5
@@ -64,19 +61,20 @@ class MovieDaoTest {
             )
         )
 
-        dao.insertMovieDao(movies)
+        movieList.addAll(movies)
 
-        val allMovies = dao.getAllMovies()
+        val currentMovieList =
+            viewModel.getMovies().getOrAwaitValue() // função altera de live data para data normal
 
-        Truth.assertThat(allMovies).isEqualTo(movies)
-
-
+        assertThat(currentMovieList).isEqualTo(movies)
 
     }
 
     @Test
-    fun deleteMoviesTest(): Unit = runBlocking {
-        val movies = listOf<Movie>(
+    fun updateMovies_returnsCurrentList() {
+        val movieList = mutableListOf<Movie>()
+
+        val movies = listOf(
             Movie(
                 true, "path", 1, "Loki O ninja", "O ninja Loki", "ahsdljashndlksajdla",
                 100.0, "posterPath,", "10/10/2069", "My title", true, 10.5, 5
@@ -99,12 +97,11 @@ class MovieDaoTest {
             )
         )
 
-        dao.insertMovieDao(movies)
-        dao.deleteAllMovies()
-        val moviesResult = dao.getAllMovies()
-        Truth.assertThat(moviesResult).isNotEmpty()
+        movieList.addAll(movies)
+
+        val currentMovieList = viewModel.updateNovies().getOrAwaitValue()
+
+        assertThat(currentMovieList).isEqualTo(movies)
+
     }
-
-
-
 }

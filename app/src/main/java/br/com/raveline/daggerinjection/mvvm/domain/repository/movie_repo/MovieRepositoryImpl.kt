@@ -23,18 +23,7 @@ class MovieRepositoryImpl(
     }
 
     suspend fun getMoviesFromApi(): List<Movie> {
-        /* lateinit var movieList: List<Movie>
 
-         try {
-             val response = movieRemoteDataSource.getMoviesFromRemote()
-             val body = response.body()
-             if (body != null) {
-                 movieList = body.movies
-             }
-         } catch (e: Exception) {
-             Log.e("MoviesRepo", e.message.toString())
-             e.printStackTrace()
-         }*/
         val movies = movieRemoteDataSource.getMoviesFromRemote().body()?.movies as ArrayList<Movie>
         Log.e("MoviesRepo", movies.toString())
 
@@ -44,18 +33,18 @@ class MovieRepositoryImpl(
     suspend fun getMoviesFromDatabase(): List<Movie> {
         lateinit var movieList: List<Movie>
 
-        try {
+        return try {
             movieList = movieLocalDataSource.getMoviesFromDatabase()
-            if (movieList.isNotEmpty()) return movieList
+            if (movieList.isNotEmpty()) movieList
             else {
                 movieList = getMoviesFromApi()
                 movieLocalDataSource.saveMoviesToDb(movieList)
-                return movieList
+                movieList
             }
         } catch (e: Exception) {
             Log.e("MoviesRepo", e.message.toString())
             e.printStackTrace()
-            return ArrayList()
+            ArrayList()
         }
 
 
